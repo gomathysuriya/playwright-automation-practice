@@ -30,7 +30,11 @@ test('checking a checkbox reveals conditional content', async ({ page }) => {
 
 test('can simple check radioButton', async ({ page }) => {
   await page.goto('https://design-system.service.gov.uk/components/radios/');
-  const radioOption = page.getByRole('radio', { name: 'Royal Navy' });
+
+  // The example lives inside an iframe, so look inside it first
+  const frame = page.locator('iframe').first().contentFrame();
+
+  const radioOption = frame.getByRole('radio', { name: 'England' });
   await radioOption.check();
   await expect(radioOption).toBeChecked();
 });
